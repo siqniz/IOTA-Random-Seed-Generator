@@ -1,4 +1,6 @@
-<Query Kind="Program" />
+<Query Kind="Program">
+  <Namespace>System.Security.Cryptography</Namespace>
+</Query>
 
 //This code runs in Linqpad but can easly be ported over in .NET C#
 
@@ -8,13 +10,16 @@ void Main()
 	List<int> _num = new List<int>();
 	string iota = string.Empty;
 	
+	byte[] _data = new byte[4]; 
 	for (int i = 0; i <= 80; i++)
 	{
-		Random _random = new Random((int)DateTime.Now.Ticks + i + System.Environment.TickCount);
+		RNGCryptoServiceProvider _ran = new RNGCryptoServiceProvider();
+		_ran.GetBytes(_data);
+		var gennum = BitConverter.ToInt32(_data,0);
+		Random _random = new Random(gennum);
 		var num = _random.Next(0, 27);
 		iota+=_seed[num];
 	}
 
 	iota.Dump();
 }
-
